@@ -1,0 +1,59 @@
+<div class="flex justify-content-center">
+  <div class="w-5">
+    <div>
+      <app-logo></app-logo>
+    </div>
+    <div class="mt-2">
+      <p-card header="歡迎註冊">
+        <div>
+          已經有帳號？ <a routerLink="/authentication/login">立即登入</a>
+        </div>
+        <!-- 帳號 -->
+        <div class="mt-5">
+          <p-floatLabel>
+            <input type="text" pInputText [(ngModel)]="username" />
+            <label for="username">帳號</label>
+          </p-floatLabel>
+        </div>
+        <!-- 密碼 -->
+        <div class="mt-5">
+          <p-floatLabel>
+            <input type="text" pInputText [(ngModel)]="password" />
+            <label for="password">密碼</label>
+          </p-floatLabel>
+        </div>
+        <!-- 錯誤訊息 -->
+        <div *ngIf="isAccountExist" class="text-red-500 mt-3">帳號已存在</div>
+        <!-- 登入按鈕 -->
+        <div class="mt-5">
+          <p-button label="註冊" size="small" (onClick)="register()"></p-button>
+        </div>
+      </p-card>
+    </div>
+  </div>
+</div>
+
+<p-confirmDialog #cd>
+  <ng-template pTemplate="headless" let-message>
+    <div
+      class="flex flex-column align-items-center p-5 surface-overlay border-round"
+    >
+      <div
+        class="border-circle bg-green-300 text-white inline-flex justify-content-center align-items-center h-6rem w-6rem"
+      >
+        <i class="pi pi-check text-5xl"></i>
+      </div>
+      <span class="font-bold text-2xl block mb-2 mt-4">
+        {{ message.header }}
+      </span>
+      <div class="flex align-items-center gap-2 mt-4">
+        <button
+          pButton
+          label="確認"
+          (click)="cd.accept()"
+          class="w-8rem"
+        ></button>
+      </div>
+    </div>
+  </ng-template>
+</p-confirmDialog>

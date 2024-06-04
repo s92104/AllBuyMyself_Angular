@@ -1,0 +1,45 @@
+<p-toolbar>
+  <!-- Logo -->
+  <div class="p-toolbar-group-start">
+    <app-logo></app-logo>
+  </div>
+  <!-- 搜尋 -->
+  <div class="p-toolbar-group-center">
+    <span class="p-input-icon-left">
+      <i class="pi pi-search"></i>
+      <input pInputText placeholder="搜尋" />
+    </span>
+  </div>
+  <!-- 使用者 -->
+  <div class="p-toolbar-group-end">
+    <!-- 已登入 -->
+    <div *ngIf="username; else noLogin">
+      <p-button label="登出" (onClick)="logout()"></p-button>
+    </div>
+    <!-- 未登入 -->
+    <ng-template #noLogin>
+      <div>
+        <a
+          routerLink="/authentication/login"
+          class="p-button font-bold no-underline"
+          >登入</a
+        >
+      </div>
+    </ng-template>
+  </div>
+</p-toolbar>
+
+<div class="flex mt-3">
+  <p-menu [model]="items">
+    <ng-template pTemplate="item" let-item>
+      <a [routerLink]="item.route" class="p-menuitem-link">
+        <span [class]="item.icon"></span>
+        <span class="ml-2">{{ item.label }}</span>
+      </a>
+    </ng-template>
+  </p-menu>
+
+  <div class="w-full ml-3">
+    <router-outlet></router-outlet>
+  </div>
+</div>

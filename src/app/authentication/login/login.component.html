@@ -1,0 +1,34 @@
+<div class="flex justify-content-center">
+  <div class="w-5">
+    <div>
+      <app-logo></app-logo>
+    </div>
+    <div class="mt-2">
+      <p-card header="歡迎登入">
+        <div>
+          沒有帳號？ <a routerLink="/authentication/register">立即註冊</a>
+        </div>
+        <!-- 帳號 -->
+        <div class="mt-5">
+          <p-floatLabel>
+            <input type="text" pInputText [(ngModel)]="username" />
+            <label for="username">帳號</label>
+          </p-floatLabel>
+        </div>
+        <!-- 密碼 -->
+        <div class="mt-5">
+          <p-floatLabel>
+            <input type="text" pInputText [(ngModel)]="password" />
+            <label for="password">密碼</label>
+          </p-floatLabel>
+        </div>
+        <!-- 錯誤訊息 -->
+        <div *ngIf="isIncorrect" class="text-red-500 mt-3">帳密錯誤</div>
+        <!-- 登入按鈕 -->
+        <div class="mt-5">
+          <p-button label="登入" size="small" (onClick)="login()"></p-button>
+        </div>
+      </p-card>
+    </div>
+  </div>
+</div>
