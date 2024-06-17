@@ -1,5 +1,5 @@
 <div class="flex justify-content-between">
-  <p-dataView #dv [value]="products">
+  <p-dataView #dv [value]="products" class="w-8">
     <ng-template pTemplate="list" let-products>
       <div class="grid grid-nogutter">
         <div
@@ -14,8 +14,8 @@
             <div class="md:w-10rem relative">
               <img
                 class="block xl:block mx-auto border-round w-full"
-                [src]="'assets/images/' + item.productInfo.image_path"
-                [alt]="item.productInfo.name"
+                [src]="'assets/images/' + item.image_path"
+                [alt]="item.name"
               />
             </div>
             <div
@@ -25,12 +25,12 @@
                 class="flex flex-row md:flex-column justify-content-between align-items-start gap-2"
               >
                 <div class="text-lg font-medium text-900 mt-2">
-                  {{ item.productInfo.name }}
+                  {{ item.name }}
                 </div>
               </div>
               <div class="flex flex-column md:align-items-end gap-5">
                 <span class="text-xl font-semibold text-900"
-                  >{{ "$" + item.productInfo.price }} x {{ item.amount }}</span
+                  >{{ "$" + item.price }} x {{ item.amount }}</span
                 >
                 <div class="flex flex-row-reverse md:flex-row gap-2">
                   <p-button
@@ -38,6 +38,7 @@
                     class="flex-auto md:flex-initial white-space-nowrap no-underline"
                     label="移除"
                     severity="danger"
+                    (onClick)="removeItem(item)"
                   ></p-button>
                 </div>
               </div>
@@ -50,9 +51,9 @@
 
   <p-card header="結帳明細" class="w-20rem">
     <div *ngFor="let item of products" class="flex justify-content-between">
-      <div>{{ item.productInfo?.name }}</div>
-      <div>{{ item.productInfo?.price }} x {{ item.amount }}</div>
-      <div>{{ (item.productInfo?.price ?? 0) * item.amount }}</div>
+      <div>{{ item.name }}</div>
+      <div>{{ item.price }} x {{ item.amount }}</div>
+      <div>{{ item.price * item.amount }}</div>
     </div>
     <p-divider></p-divider>
     <div class="flex justify-content-between font-bold text-xl">
@@ -69,3 +70,28 @@
     </div>
   </p-card>
 </div>
+
+<p-confirmDialog #cd>
+  <ng-template pTemplate="headless" let-message>
+    <div
+      class="flex flex-column align-items-center p-5 surface-overlay border-round"
+    >
+      <div
+        class="border-circle bg-yellow-500 text-white inline-flex justify-content-center align-items-center h-6rem w-6rem"
+      >
+        <i class="pi pi-truck text-5xl"></i>
+      </div>
+      <span class="font-bold text-2xl block mb-2 mt-4">
+        {{ message.header }}
+      </span>
+      <div class="flex align-items-center gap-2 mt-4">
+        <button
+          pButton
+          label="確定"
+          (click)="cd.accept()"
+          class="w-8rem"
+        ></button>
+      </div>
+    </div>
+  </ng-template>
+</p-confirmDialog>

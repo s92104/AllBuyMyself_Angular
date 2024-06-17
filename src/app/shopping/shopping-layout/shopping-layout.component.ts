@@ -54,12 +54,12 @@ export class ShoppingLayoutComponent implements OnInit {
           {
             label: '我的訂單',
             icon: 'pi pi-clipboard',
-            route: '/order',
+            route: '/shopping/order',
           },
           {
             label: '收藏清單',
             icon: 'pi pi-bookmark',
-            route: '/save-list',
+            route: '/shopping/save-list',
           },
         ],
       },

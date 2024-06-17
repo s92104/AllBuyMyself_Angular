@@ -1,0 +1,65 @@
+<div
+  *ngFor="let order of orders; let firstOrder = first"
+  [ngClass]="{ 'mt-5': !firstOrder }"
+>
+  <p-card header="訂單編號: {{ order.id }}">
+    <div class="flex justify-content-between">
+      <p-dataView #dv [value]="order.items">
+        <ng-template pTemplate="list" let-products>
+          <div class="grid grid-nogutter">
+            <div
+              class="col-12"
+              *ngFor="let item of products; let first = first"
+            >
+              <div
+                class="flex flex-column sm:flex-row sm:align-items-center p-4 gap-3"
+                [ngClass]="{ 'border-top-1 surface-border': !first }"
+              >
+                <div class="md:w-1 relative">
+                  <img
+                    class="block xl:block mx-auto border-round w-full"
+                    [src]="'assets/images/' + item.image_path"
+                    [alt]="item.name"
+                  />
+                </div>
+                <div
+                  class="flex flex-column md:flex-row justify-content-between md:align-items-center flex-1 gap-4"
+                >
+                  <div
+                    class="flex flex-row md:flex-column justify-content-between align-items-start gap-2"
+                  >
+                    <div class="text-lg font-medium text-900 mt-2">
+                      {{ item.name }}
+                    </div>
+                  </div>
+                  <div class="flex flex-column md:align-items-end gap-5">
+                    <span class="text-xl font-semibold text-900"
+                      >{{ "$" + item.price }} x {{ item.amount }}</span
+                    >
+                    <div class="flex flex-row-reverse md:flex-row gap-2"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </p-dataView>
+    </div>
+
+    <div class="flex justify-content-between">
+      <div>
+        <div>總金額: {{ order.totalPrice }}</div>
+        <div>下單時間: {{ order.time | date : "yyyy-MM-dd HH:mm:ss" }}</div>
+      </div>
+      <p-button
+        icon="pi pi-times"
+        class="flex-auto md:flex-initial white-space-nowrap no-underline"
+        label="取消訂單"
+        severity="danger"
+        (onClick)="cancelOrder($event, order)"
+      ></p-button>
+    </div>
+  </p-card>
+</div>
+
+<p-confirmDialog></p-confirmDialog>

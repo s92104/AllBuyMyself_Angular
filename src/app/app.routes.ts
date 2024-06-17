@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './authentication/login/login.component';
 import { RegisterComponent } from './authentication/register/register.component';
+import { OrderComponent } from './shopping/order/order.component';
 import { ProductInfoComponent } from './shopping/product-info/product-info.component';
 import { ProductListComponent } from './shopping/product-list/product-list.component';
 import { ShoppingCartComponent } from './shopping/shopping-cart/shopping-cart.component';
@@ -23,6 +24,7 @@ export const routes: Routes = [
       { path: 'product-list', component: ProductListComponent },
       { path: 'product-info/:id', component: ProductInfoComponent },
       { path: 'shopping-cart', component: ShoppingCartComponent },
+      { path: 'order', component: OrderComponent },
     ],
   },
 ];

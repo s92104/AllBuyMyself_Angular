@@ -1,19 +1,28 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
+import { ToastModule } from 'primeng/toast';
 import { ApiResult } from '../../shared/models/common/api-result';
 import { LocalStorageKeyConst } from '../../shared/models/common/const/local-storage-key-const';
-import { BuyProduct } from '../../shared/models/shopping/buy-product';
+import { AddShoppingCartReq } from '../../shared/models/shopping/add-shopping-cart-req';
 import { GetProductInfoResp } from '../../shared/models/shopping/get-product-info-resp';
 
 @Component({
   selector: 'app-product-info',
   standalone: true,
-  imports: [CardModule, ButtonModule, InputTextModule, FormsModule],
+  imports: [
+    CardModule,
+    ButtonModule,
+    InputTextModule,
+    FormsModule,
+    ToastModule,
+  ],
+  providers: [MessageService],
   templateUrl: './product-info.component.html',
   styleUrl: './product-info.component.css',
 })
@@ -25,7 +34,7 @@ export class ProductInfoComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private route: ActivatedRoute,
-    private router: Router
+    private messageService: MessageService
   ) {}
 
   ngOnInit(): void {
@@ -43,29 +52,24 @@ export class ProductInfoComponent implements OnInit {
   }
 
   addShoppingCart() {
-    const buyProduct: BuyProduct = {
-      productInfo: this.product,
+    const username = localStorage.getItem(LocalStorageKeyConst.username) ?? '';
+
+    const param: AddShoppingCartReq = {
+      username: username,
+      productId: this.id,
       amount: this.amount,
     };
 
-    const shoppingCartJson = localStorage.getItem(
-      LocalStorageKeyConst.shoppingCart
-    );
-
-    if (!shoppingCartJson) {
-      localStorage.setItem(
-        LocalStorageKeyConst.shoppingCart,
-        JSON.stringify([buyProduct])
-      );
-    } else {
-      let shoppingCart: BuyProduct[] = JSON.parse(shoppingCartJson);
-      shoppingCart = [...shoppingCart, buyProduct];
-      localStorage.setItem(
-        LocalStorageKeyConst.shoppingCart,
-        JSON.stringify(shoppingCart)
-      );
-    }
-
-    this.router.navigateByUrl('');
+    this.http
+      .post<ApiResult<boolean>>('shopping/addShoppingCart', param)
+      .subscribe((apiResult) => {
+        const isSuccess = apiResult.result;
+        if (isSuccess) {
+          this.messageService.add({
+            severity: 'success',
+            summary: '商品已加入購物車',
+          });
+        }
+      });
   }
 }
