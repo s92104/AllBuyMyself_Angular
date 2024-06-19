@@ -4,6 +4,7 @@ import { RegisterComponent } from './authentication/register/register.component'
 import { OrderComponent } from './shopping/order/order.component';
 import { ProductInfoComponent } from './shopping/product-info/product-info.component';
 import { ProductListComponent } from './shopping/product-list/product-list.component';
+import { SaveListComponent } from './shopping/save-list/save-list.component';
 import { ShoppingCartComponent } from './shopping/shopping-cart/shopping-cart.component';
 import { ShoppingLayoutComponent } from './shopping/shopping-layout/shopping-layout.component';
 
@@ -25,6 +26,7 @@ export const routes: Routes = [
       { path: 'product-info/:id', component: ProductInfoComponent },
       { path: 'shopping-cart', component: ShoppingCartComponent },
       { path: 'order', component: OrderComponent },
+      { path: 'save-list', component: SaveListComponent },
     ],
   },
 ];

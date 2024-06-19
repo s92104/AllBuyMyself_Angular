@@ -11,6 +11,7 @@ import { ApiResult } from '../../shared/models/common/api-result';
 import { LocalStorageKeyConst } from '../../shared/models/common/const/local-storage-key-const';
 import { AddShoppingCartReq } from '../../shared/models/shopping/add-shopping-cart-req';
 import { GetProductInfoResp } from '../../shared/models/shopping/get-product-info-resp';
+import { ChangeSaveReq } from '../../shared/models/shopping/save/change-save-req';
 
 @Component({
   selector: 'app-product-info',
@@ -30,6 +31,7 @@ export class ProductInfoComponent implements OnInit {
   product: GetProductInfoResp | null = null;
   id: number = 0;
   amount: number = 1;
+  username: string = localStorage.getItem(LocalStorageKeyConst.username) ?? '';
 
   constructor(
     private http: HttpClient,
@@ -43,7 +45,7 @@ export class ProductInfoComponent implements OnInit {
 
       this.http
         .get<ApiResult<GetProductInfoResp | null>>('shopping/getProductInfo', {
-          params: { id: this.id },
+          params: { id: this.id, username: this.username },
         })
         .subscribe((apiResult) => {
           this.product = apiResult.result;
@@ -69,6 +71,26 @@ export class ProductInfoComponent implements OnInit {
             severity: 'success',
             summary: '商品已加入購物車',
           });
+        }
+      });
+  }
+
+  changeSave(item: GetProductInfoResp | null) {
+    if (item === null) {
+      return;
+    }
+
+    const param: ChangeSaveReq = {
+      username: this.username,
+      productId: item.id,
+    };
+
+    this.http
+      .post<ApiResult<boolean>>('save/changeSave', param)
+      .subscribe((apiResult) => {
+        const isSuccess = apiResult.result;
+        if (isSuccess) {
+          location.reload();
         }
       });
   }

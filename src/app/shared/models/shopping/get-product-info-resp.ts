@@ -4,4 +4,5 @@ export interface GetProductInfoResp {
   price: number;
   image_path: string | null;
   description: string | null;
+  isSave: boolean;
 }

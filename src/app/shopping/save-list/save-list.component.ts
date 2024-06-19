@@ -6,36 +6,33 @@ import { ButtonModule } from 'primeng/button';
 import { DataViewModule } from 'primeng/dataview';
 import { ApiResult } from '../../shared/models/common/api-result';
 import { LocalStorageKeyConst } from '../../shared/models/common/const/local-storage-key-const';
-import { GetProductListResp } from '../../shared/models/shopping/get-product-list-resp';
 import { ChangeSaveReq } from '../../shared/models/shopping/save/change-save-req';
+import { GetSavesResp } from '../../shared/models/shopping/save/get-saves-resp';
 
 @Component({
-  selector: 'app-product-list',
+  selector: 'app-save-list',
   standalone: true,
   imports: [DataViewModule, CommonModule, ButtonModule, RouterModule],
-  templateUrl: './product-list.component.html',
-  styleUrl: './product-list.component.css',
+  templateUrl: './save-list.component.html',
+  styleUrl: './save-list.component.css',
 })
-export class ProductListComponent implements OnInit {
-  layout: 'list' | 'grid' = 'list';
-  products: GetProductListResp[] = [];
+export class SaveListComponent implements OnInit {
+  products: GetSavesResp[] = [];
   username: string = localStorage.getItem(LocalStorageKeyConst.username) ?? '';
 
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
     this.http
-      .get<ApiResult<GetProductListResp[]>>('shopping/getProductList', {
-        params: {
-          username: this.username,
-        },
+      .get<ApiResult<GetSavesResp[]>>('save/getSaves', {
+        params: { username: this.username },
       })
-      .subscribe((apiresult) => {
-        this.products = apiresult.result ?? [];
+      .subscribe((apiResult) => {
+        this.products = apiResult.result ?? [];
       });
   }
 
-  changeSave(item: GetProductListResp) {
+  changeSave(item: GetSavesResp) {
     const param: ChangeSaveReq = {
       username: this.username,
       productId: item.id,

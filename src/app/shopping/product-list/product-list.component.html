@@ -32,7 +32,12 @@
                 "$" + item.price
               }}</span>
               <div class="flex flex-row-reverse md:flex-row gap-2">
-                <p-button icon="pi pi-heart" [outlined]="true" />
+                <p-button
+                  icon="pi {{ item.isSave ? 'pi-heart-fill' : 'pi-heart' }}"
+                  severity="danger"
+                  [outlined]="true"
+                  (onClick)="changeSave(item)"
+                />
                 <a
                   pButton
                   icon="pi pi-shopping-cart"
