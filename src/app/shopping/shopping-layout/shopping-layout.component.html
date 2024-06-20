@@ -30,7 +30,7 @@
 </p-toolbar>
 
 <div class="flex mt-3">
-  <p-menu [model]="items">
+  <p-menu [model]="items" *ngIf="username">
     <ng-template pTemplate="item" let-item>
       <a [routerLink]="item.route" class="p-menuitem-link">
         <span [class]="item.icon"></span>

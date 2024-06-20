@@ -68,6 +68,7 @@ export class ShoppingLayoutComponent implements OnInit {
 
   logout() {
     localStorage.clear();
-    location.reload();
+    this.username = null;
+    this.router.navigateByUrl('');
   }
 }
