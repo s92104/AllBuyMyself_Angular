@@ -34,6 +34,9 @@ import { ApiResult } from '../../shared/models/common/api-result';
 export class RegisterComponent {
   username: string = '';
   password: string = '';
+  cellphone: string = '';
+  email: string = '';
+  address: string = '';
   isAccountExist: boolean = false;
 
   constructor(
@@ -46,6 +49,9 @@ export class RegisterComponent {
     const param: RegisterReq = {
       username: this.username,
       password: this.password,
+      cellphone: this.cellphone,
+      email: this.email,
+      address: this.address,
     };
 
     this.http

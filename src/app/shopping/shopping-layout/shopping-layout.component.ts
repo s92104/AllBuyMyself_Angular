@@ -44,7 +44,7 @@ export class ShoppingLayoutComponent implements OnInit {
           {
             label: '我的帳號',
             icon: 'pi pi-user',
-            route: '/account',
+            route: '/shopping/account',
           },
           {
             label: '購物車',
